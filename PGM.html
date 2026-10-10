@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PGM - Premium Output (Round Logo)</title>
+    <title>PGM - Premium Output (Pro Text Animation)</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Noto+Sans+Gurmukhi:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     <style>
@@ -13,24 +13,35 @@
         .shine-effect::before { content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%); transform: skewX(-25deg); animation: sweep 6s infinite cubic-bezier(0.4, 0, 0.2, 1); z-index: 10; pointer-events: none; }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0px); } }
 
-        /* ਲੋਗੋ ਨੂੰ ਪੂਰੀ ਤਰ੍ਹਾਂ ਗੋਲ ਕੀਤਾ ਗਿਆ ਹੈ ਅਤੇ ਬਾਰਡਰ ਹਟਾ ਦਿੱਤਾ ਗਿਆ ਹੈ */
+        /* Round Logo */
         #logo-container { position: absolute; top: 40px; right: 50px; width: 160px; height: 160px; border-radius: 50%; z-index: 100; opacity: 0; transition: opacity 1s, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: scale(0.8) translateY(-50px); animation: float 4s ease-in-out infinite; animation-play-state: paused; }
         #logo-container.active { opacity: 1; transform: scale(1) translateY(0); animation-play-state: running; }
         #logo-container img { width: 100%; height: 100%; border-radius: 50%; border: none; object-fit: contain; }
 
+        /* LIVE Bug */
         #live-bug { position: absolute; top: 50px; left: 50px; display: flex; font-size: 24px; font-weight: 900; border-radius: 8px; overflow: hidden; transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); opacity: 0; transform: translateX(-50px); border: 1px solid rgba(255,255,255,0.3); }
         #live-bug.active { opacity: 1; transform: translateX(0); }
-        
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
         .red-dot { display: inline-block; width: 12px; height: 12px; background-color: white; border-radius: 50%; margin-right: 8px; animation: blink 1s infinite; }
-        
         #live-text { background: linear-gradient(135deg, #e60000, #990000); color: white; padding: 10px 20px; display: flex; align-items: center; letter-spacing: 1px; }
         #location-text { background: linear-gradient(135deg, #ffffff, #e0e0e0); color: #990000; padding: 10px 25px; white-space: nowrap; text-transform: uppercase; letter-spacing: 1px; }
 
+        /* Lower Third Container */
         #lower-third { position: absolute; bottom: 80px; left: 50px; background: linear-gradient(90deg, rgba(15,15,15,0.95) 0%, rgba(30,30,30,0.85) 100%); backdrop-filter: blur(10px); border-left: 12px solid #ffcc00; padding: 25px 50px; color: white; transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; transform: perspective(500px) rotateX(20deg) translateY(50px); transform-origin: bottom; border-radius: 0 15px 15px 0; max-width: 1500px; border-top: 1px solid rgba(255,204,0,0.5); border-bottom: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1); }
         #lower-third.active { opacity: 1; transform: perspective(500px) rotateX(0deg) translateY(0); }
-        #lt-text { font-size: 45px; font-weight: 700; line-height: 1.4; transition: opacity 0.5s ease-in-out; opacity: 1; }
+        
+        /* Pro Text Animation Styles */
+        #lt-text { 
+            font-size: 45px; 
+            font-weight: 700; 
+            line-height: 1.4; 
+            display: inline-block;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Smooth Broadcast Ease */
+        }
 
+        /* Wipe Transition */
         .wipe-layer { position: absolute; top: 0; left: -120%; width: 120%; height: 100%; transform: skewX(-15deg); transform-origin: top left; transition: left 0.8s cubic-bezier(0.77, 0, 0.175, 1); z-index: 1000; }
         #wipe-red { background: linear-gradient(90deg, #ff0000, #cc0000); z-index: 1001; transition-delay: 0s; }
         #wipe-yellow { background: linear-gradient(90deg, #ffcc00, #ffaa00); z-index: 1002; transition-delay: 0.1s; }
@@ -45,10 +56,7 @@
 
         .wipe-content { text-align: center; display: flex; flex-direction: column; align-items: center; opacity: 0; transition: opacity 0.3s; transition-delay: 0.5s; }
         .wipe-container.active .wipe-content { opacity: 1; }
-        
-        /* Wipe ਵਾਲੇ ਲੋਗੋ ਨੂੰ ਵੀ ਗੋਲ ਕੀਤਾ ਗਿਆ ਹੈ */
         .wipe-content img { width: 350px; height: 350px; margin-bottom: 20px; border-radius: 50%; border: none; object-fit: contain; }
-        
         .wipe-content h1 { font-family: 'Montserrat', sans-serif; font-size: 110px; margin: 0; color: #ff0000; font-weight: 900; -webkit-text-stroke: 4px white; letter-spacing: 8px; text-transform: uppercase; }
     </style>
 </head>
@@ -90,19 +98,34 @@
         function startPaging() {
             clearInterval(pagingInterval);
             if (ltLines.length <= 1) return; 
+            
             pagingInterval = setInterval(() => {
                 currentLineIndex = (currentLineIndex + 1) % ltLines.length;
                 animateTextChange(ltLines[currentLineIndex]);
-            }, 5000); 
+            }, 5000); // Change text every 5 seconds
         }
 
         function animateTextChange(newText) {
             const ltText = document.getElementById('lt-text');
-            ltText.style.opacity = 0; 
+            
+            // Step 1: Slide Up and Fade Out (Old Text)
+            ltText.style.opacity = '0'; 
+            ltText.style.transform = 'translateY(-30px)';
+            
             setTimeout(() => {
+                // Step 2: Instantly move to bottom invisibly
+                ltText.style.transition = 'none'; 
                 ltText.innerText = newText;
-                ltText.style.opacity = 1; 
-            }, 500); 
+                ltText.style.transform = 'translateY(30px)';
+                
+                // Force browser to register the instant move
+                void ltText.offsetWidth; 
+                
+                // Step 3: Slide Up and Fade In (New Text)
+                ltText.style.transition = 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+                ltText.style.opacity = '1'; 
+                ltText.style.transform = 'translateY(0)';
+            }, 600); // Wait for the fade out to finish
         }
 
         // MQTT Server
@@ -133,11 +156,17 @@
                 ltText.style.fontSize = data.fontSize + 'px';
                 
                 if (ltLines.length > 0) {
-                    ltText.style.opacity = 0;
-                    setTimeout(() => {
-                        ltText.innerText = ltLines[0];
-                        ltText.style.opacity = 1;
-                    }, 200);
+                    // First time text load animation
+                    ltText.style.transition = 'none';
+                    ltText.style.opacity = '0';
+                    ltText.style.transform = 'translateY(30px)';
+                    ltText.innerText = ltLines[0];
+                    
+                    void ltText.offsetWidth;
+                    
+                    ltText.style.transition = 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+                    ltText.style.opacity = '1';
+                    ltText.style.transform = 'translateY(0)';
                 } else {
                     ltText.innerText = '';
                 }
